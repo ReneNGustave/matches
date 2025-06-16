@@ -1,8 +1,17 @@
 import type { NextConfig } from "next";
-import { env } from "process";
 
-const nextConfig: NextConfig = {
-  allowedDevOrigins: [env.REPLIT_DOMAINS.split(",")[0]],
+// Safely get REPLIT_DOMAINS, fallback to empty array if not defined
+const replOrigins = process.env.REPLIT_DOMAINS?.split(",") || [];
+
+// Optional: Export your custom config separately
+const customConfig = {
+  allowedDevOrigins: [replOrigins[0] || "http://localhost:3000"],
 };
 
-module.exports = nextConfig;
+// Only standard keys inside this object
+const nextConfig: NextConfig = {
+  reactStrictMode: true,
+};
+
+export default nextConfig;
+export { customConfig };
